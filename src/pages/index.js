@@ -52,7 +52,7 @@ export default ({ data }) => {
       <div>
         <h1> Raúl's Thoughts</h1>
         {/* the structure of the object we get from the query matches exactly the structure of the query, all we need to check is the type of the elements, for example edges in an array of objecs (nodes)  */}
-        <h4>{hookedData.allMarkdownRemark.totalCount}</h4>
+        <h4>Posts: {hookedData.allMarkdownRemark.totalCount}</h4>
         {// we are going to map all the nodes from the edges, we need to deconstruct the node inside each edge element inside edges array and return an html with the title, date and the exceprt
         data.allMarkdownRemark.edges.map(({ node }) => (
           <div key={node.id}>
