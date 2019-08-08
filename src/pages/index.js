@@ -74,7 +74,7 @@ export default ({ data }) => {
 // we create the query as an export const. we copy inside the query we had in the graphql playground that give us the markdown
 export const query = graphql`
   query {
-    allMarkdownRemark {
+    allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
       totalCount
       edges {
         node {
@@ -83,6 +83,10 @@ export const query = graphql`
             date
             description
             title
+          }
+          fields {
+            # we get the slug from fields so we can link the markdown pages in the index
+            slug
           }
           excerpt
         }
