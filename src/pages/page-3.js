@@ -1,11 +1,9 @@
 import React from "react"
 
-import Layout from "../components/layout"
-
 const ThirdPage = () => (
-  <Layout>
+  <div>
     <h1>Hello from the third page</h1>
-  </Layout>
+  </div>
 )
 
 export default ThirdPage

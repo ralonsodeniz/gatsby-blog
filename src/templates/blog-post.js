@@ -3,18 +3,15 @@
 // we dont keep this component in the component folder because this is not a component we are going to use in our application but only in the building process to build our markdownremark pages
 import React from "react"
 import { graphql } from "gatsby"
-import Layout from "../components/layout"
 
 export default ({ data }) => {
   const post = data.markdownRemark // we create a post const with the html and the frontmatter title
   return (
-    <Layout>
-      <div>
-        <h1>{post.frontmatter.title}</h1>
-        <div dangerouslySetInnerHTML={{ __html: post.html }} />{" "}
-        {/* dangerouslySetInnerHTML is the preferred way for gatsby to set the body of the markdownRemark as the body of the blog */}
-      </div>
-    </Layout>
+    <div>
+      <h1>{post.frontmatter.title}</h1>
+      <div dangerouslySetInnerHTML={{ __html: post.html }} />{" "}
+      {/* dangerouslySetInnerHTML is the preferred way for gatsby to set the body of the markdownRemark as the body of the blog */}
+    </div>
   )
 }
 

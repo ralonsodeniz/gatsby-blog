@@ -1,8 +1,10 @@
-import React from "react"
+import React, { useContext } from "react"
 import { Link, graphql, useStaticQuery } from "gatsby" // graphql allow us to query in order to get what we want from the markdown files
+
+import { PostsContext } from "../providers/posts/posts.provider"
+
 import styled from "styled-components"
 
-import Layout from "../components/layout"
 // import Image from "../components/image"
 import SEO from "../components/seo"
 
@@ -17,6 +19,8 @@ const BlogTitle = styled.h3`
 `
 
 export default ({ data }) => {
+  const { selectPost } = useContext(PostsContext)
+
   // this is another way to get the query using the useStaticQuery from gatsby, the object we get is the same
   const hookedData = useStaticQuery(graphql`
     query {
@@ -42,30 +46,27 @@ export default ({ data }) => {
     }
   `)
 
-  console.log("HOOKEDDATA", hookedData)
-  console.log("DATA", data)
-
   // now with this data we have from the query we can build our own index page with the preview of the posts
   return (
-    <Layout>
+    <div>
       <SEO title="Home" />
-      <div>
-        <h1> Raúl's Thoughts</h1>
-        {/* the structure of the object we get from the query matches exactly the structure of the query, all we need to check is the type of the elements, for example edges in an array of objecs (nodes)  */}
-        <h4>Posts: {hookedData.allMarkdownRemark.totalCount}</h4>
-        {// we are going to map all the nodes from the edges, we need to deconstruct the node inside each edge element inside edges array and return an html with the title, date and the exceprt
-        data.allMarkdownRemark.edges.map(({ node }) => (
-          <div key={node.id}>
-            <BlogLink to={node.fields.slug}>
-              <BlogTitle>
-                {node.frontmatter.title} - {node.frontmatter.date}
-              </BlogTitle>
-            </BlogLink>
-            <p>{node.excerpt}</p>
-          </div>
-        ))}
-      </div>
-    </Layout>
+      <h1> Raúl's Thoughts</h1>
+      {/* the structure of the object we get from the query matches exactly the structure of the query, all we need to check is the type of the elements, for example edges in an array of objecs (nodes)  */}
+      <h4>Posts: {hookedData.allMarkdownRemark.totalCount}</h4>
+      {// we are going to map all the nodes from the edges, we need to deconstruct the node inside each edge element inside edges array and return an html with the title, date and the exceprt
+      data.allMarkdownRemark.edges.map(({ node }) => (
+        <div key={node.id}>
+          <BlogLink to={node.fields.slug} onClick={() => selectPost(node.id)}>
+            <BlogTitle>
+              {node.frontmatter.title}
+              <br />
+              {node.frontmatter.date}
+            </BlogTitle>
+          </BlogLink>
+          <p>{node.excerpt}</p>
+        </div>
+      ))}
+    </div>
   )
 }
 
